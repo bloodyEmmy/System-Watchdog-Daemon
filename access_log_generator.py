@@ -1,8 +1,8 @@
 import random
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 def access_log_generator():
-    ip = f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
     methods = ["GET", "POST", "HEAD", "PUT", "DELETE", "OPTIONS"]
     url = ["/", "/index.php", "/contacts", "/api/v1/users", "/catalog/items/", "/assets/css/style.css", 
            "/js/main.js", "/images/logo.png", "/favicon.ico", "/wp-admin/", "/wp-login.php", 
@@ -17,11 +17,14 @@ def access_log_generator():
                 "Mozilla/5.0 (compatible; Googlebot/2.1; +http://google.com)",
                 "Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com)"]
     
-    current_time = datetime.now()
+    zone = ZoneInfo("Europe/Moscow") # поменять текущий регион
+    current_time = datetime.now(zone)
+    
     with open("access.log", "w", encoding="utf-8") as file:
-        for _ in range(1000):
+        for _ in range(10000):
+            ip = f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}"
             current_time += timedelta(seconds=random.randint(1, 10))
-            time = current_time.strftime("%d/%b/%Y:%H:%M:%S +0000")
+            time = current_time.strftime("%d/%b/%Y:%H:%M:%S %z")
             line = (
                 f'{ip} - - [{time}] "{random.choice(methods)} {random.choice(url)} {random.choice(protocols)}" '
                 f'{random.choice(answer_code)} {random.choice(answer_size)} "{random.choice(sources)}" '
