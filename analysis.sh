@@ -10,7 +10,7 @@ else
     number_uniq_ip=$(awk '{print $1}' "$1" | sort | uniq | wc -l)
     echo "Количество уникальных IP - ${number_uniq_ip}"
 
-    top_spamers=$(awk '{print $1}' "$1" | uniq -c | sort -nr | head -n 3)
+    top_spamers=$(awk '{print $1}' "$1" | sort | uniq -c | sort -nr | head -n 3)
     echo "Топ спамеров:"
     echo "${top_spamers}"
 fi
