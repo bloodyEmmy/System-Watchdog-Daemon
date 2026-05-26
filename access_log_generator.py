@@ -32,3 +32,9 @@ def access_log_generator():
             )
 
             file.write(line)
+
+def main():
+    access_log_generator()
+
+if __name__ == "__main__":
+    main()
