@@ -46,7 +46,7 @@ def syslog_write():
     if free_disk_percent < CRIT_DISK_PERCENT:
         syslog.syslog(syslog.LOG_CRIT, f"CRITICAL: Место на диске почти закончилось! Свободно: {free_disk_percent:.1f}%")
     elif free_disk_percent < WARN_DISK_PERCENT:
-        syslog.syslog(syslog.LOG_CRIT, f"WARNING: Место на диске скоро закончится! Свободно: {free_disk_percent:.1f}%")
+        syslog.syslog(syslog.LOG_WARNING, f"WARNING: Место на диске скоро закончится! Свободно: {free_disk_percent:.1f}%")
 
     for ip, count in ips.items():
         if count > CRIT_IP_REQS:

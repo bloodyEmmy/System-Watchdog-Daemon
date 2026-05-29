@@ -9,6 +9,7 @@ def main():
     while True:
         try:
             syslog_write()
+            syslog.syslog(syslog.LOG_INFO, "Пинг: проверка пройдена, всё в норме.")
             time.sleep(10)
         except FileNotFoundError as e:
             syslog.syslog(syslog.LOG_ERR, f"ERROR: Потерян системный файл: {e}")
@@ -16,3 +17,6 @@ def main():
         except Exception as e:
             syslog.syslog(syslog.LOG_ERR, f"ERROR: Непредвиденная ошибка цикла: {e}")
             time.sleep(10)
+
+if __name__ == "__main__":
+    main()
