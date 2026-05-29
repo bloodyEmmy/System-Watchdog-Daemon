@@ -1,12 +1,18 @@
 import time
-import read_proc_log_hardware as sensors
+import syslog
+from syslog_write import syslog_write
 
 def main():
-    while True:
-        cpu_total, cpu_per_core = sensors.check_cpu_usage()
-        free_disk_percent = sensors.check_disk()
-        free_mem_percent = sensors.read_free_mem()
-        la_1, la_5, la_15 = sensors.read_load_average()
-        ips = sensors.read_log_for_ip()
+    syslog.openlog(ident="sys_watchdog", facility=syslog.LOG_DAEMON)
+    syslog.syslog(syslog.LOG_INFO, "Watchdog запущен. Мониторинг начат.")
 
-        time.sleep(10)
+    while True:
+        try:
+            syslog_write()
+            time.sleep(10)
+        except FileNotFoundError as e:
+            syslog.syslog(syslog.LOG_ERR, f"ERROR: Потерян системный файл: {e}")
+            time.sleep(10)
+        except Exception as e:
+            syslog.syslog(syslog.LOG_ERR, f"ERROR: Непредвиденная ошибка цикла: {e}")
+            time.sleep(10)

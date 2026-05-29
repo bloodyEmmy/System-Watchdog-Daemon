@@ -7,7 +7,7 @@ def check_cpu_usage():
 	return cpu_total, cpu_per_core
 
 def check_disk():
-	total, used, free = psutil.disk_usage("/")
+	total, used, free = shutil.disk_usage("/")
 	free_disk_percent = free / total * 100
 	return free_disk_percent
 
@@ -31,11 +31,13 @@ def read_load_average():
 		la_1, la_5, la_15 = float(list_values[0]), float(list_values[1]), float(list_values[2])
 	return la_1, la_5, la_15
 
-def read_log(filename):
-	ips = dict()
-	with open(filename, "r") as file:
-		for line in file:
-			ips[line.split()[0]] = 1
-			if line.split()[0] in ips:
-				ips[line.split()[0]] += 1
-	return ips
+def read_log_for_ip(filename):
+    ips = dict()
+    with open(filename, "r") as file:
+        for line in file:
+            ip = line.split()[0]
+            if ip in ips:
+                ips[ip] += 1
+            else:
+                ips[ip] = 1
+    return ips
