@@ -3,7 +3,7 @@ import syslog
 from syslog_write import syslog_write
 
 def main():
-    syslog.openlog(ident="sys_watchdog", facility=syslog.LOG_DAEMON)
+    syslog.openlog(ident="watchdog", facility=syslog.LOG_DAEMON)
     syslog.syslog(syslog.LOG_INFO, "Watchdog запущен. Мониторинг начат.")
 
     while True:

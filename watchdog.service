@@ -1,0 +1,13 @@
+[Unit]
+Description=My System Watchdog
+After=syslog.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 {{WORKDIR}}/main.py
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
